@@ -79,7 +79,7 @@ app.get("/", (req, res) => {
 app.get("/notes/:id", (req,res) => {
     console.log("REQPARAMS", req.params.id);
     db.Article.findOne({"_id":req.params.id})
-    .populate('note')
+    .populate('notes')
     .then(result => {
         result.hasNote = true;
         console.log("RESULT", result);
