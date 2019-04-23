@@ -119,6 +119,24 @@ app.post("/savenote/:id", (req, res) => {
     });
 });
 
+//update note
+app.put("/note/:id", (req, res) => {
+    console.log("REQPARAMS", req.params.id);
+    console.log("REQBODY", req.body);
+    db.Note.findOneAndUpdate({_id:req.body.id}, {body: req.body.body},{new: true})
+    .then(noteResult =>{
+        console.log("NOTERESULT", noteResult)
+        return db.Article.find({_id:req.params.id}).populate("notes")
+    })
+    .then(artResult => {
+        console.log("ARTRESULT", artResult);
+        res.json(artResult);
+    })
+    .catch(err => {
+        console.log(err)
+    })
+});
+
 // app.get("/", (req, res) => {
 //     res.
 // });

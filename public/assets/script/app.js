@@ -101,6 +101,28 @@ $(document).on("click", "#edit-note", function(e) {
     const deleteButton = $("<a>").addClass("waves-effect waves-light btn red").text("Delete");
     deleteButton.attr("id", "delete-note");
     deleteButton.attr("data-id", id);
-    const editInput = $("<input>").val(currentText);
+    const editInput = $("<input>").attr("id", "edit-text");
     editDiv.append(editInput, editButton, deleteButton);
 });
+
+$(document).on("click", "#update-note", function(e) {
+    const artId = $("#article-title").attr("data-id");
+    const noteId = $(this).attr("data-id");
+    const body=  $("#edit-text").val();
+    $.ajax({
+        url: "/note/"+ artId,
+        method: "PUT",
+        data: {id: noteId, body: body}
+    }).then(result => {
+        console.log("UPDATE RESULT", result);
+        addNotes(result[0].notes);
+    });
+});
+
+$(document).on("click", "#delete-note", function(e) {
+    
+});
+
+
+
+
