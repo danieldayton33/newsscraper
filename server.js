@@ -86,22 +86,46 @@ app.get("/notes/:id", (req,res) => {
         res.json(result);
     })
 });
+
 app.put("/save/:id", (req, res) => {
+    console.log("REQBODY SAVE ARTICLE", req.body)
+    const sentFrom = req.body.sentFrom
     const searchObj = {_id: req.params.id};
     console.log("SEARCHOBJ", searchObj);
-    db.Article.findOneAndUpdate(searchObj, {isSaved: true}, {new: true})
-    .then(result => {
-        console.log("IS SAVED TRUE", result);
-        db.Article.find({isSaved: "false"})
+    if(sentFrom === "index") {
+        db.Article.findOneAndUpdate(searchObj, {isSaved: req.body.isSaved}, {new: true})
         .then(result => {
-            console.log('ISSAVED FALSE', result)
+            console.log("RESULT", result);    
+            db.Article.find({isSaved: "false"})
+                .then(result => {
+                console.log('ISSAVED FALSE', result)
+                const articles = {
+                articles: result
+                    }
+                res.render('index', articles);
+            });
+        }).catch(err => {
+            res.json(err);
+        });
+    } 
+    else if( sentFrom === "saved") {
+        db.Article.findOneAndUpdate(searchObj, {isSaved: req.body.isSaved}, {new: true})
+        .then(result => {
+                console.log(result);
+         db.Article.find({isSaved: "true"})
+        .then(result => {
+            console.log('ISSAVED True', result)
             const articles = {
                 articles: result
             }
-            res.render('index', articles);
-        })
-    })
+                    res.render('saved', articles);
+            }).catch(err => {
+                res.json(err);
+            })
+        });
+    }
 });
+
 //save notes to db.Note and update db.Article with new note id
 app.post("/savenote/:id", (req, res) => {
     console.log("REQ.BODY", req.body);
