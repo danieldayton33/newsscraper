@@ -23,8 +23,12 @@ app.set("view engine", "handlebars");
 
 const db = require('./models');
 
+if(process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI);
+} else{
+    mongoose.connect("mongodb://localhost/newscraper", {useNewUrlParser: true});
+}
 
-mongoose.connect("mongodb://localhost/newscraper", {useNewUrlParser: true});
 
 app.get("/scrape", (req, res)=> {
     axios.get("https://beachgrit.com/").then(response => {
