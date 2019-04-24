@@ -46,7 +46,7 @@ app.get("/scrape", (req, res)=> {
         
         db.Article.create(result)
         .then(result => {
-            console.log(result);
+            res.json("Scrape Finished!")
         })
         .catch(err => {
             console.log(err);
@@ -54,7 +54,6 @@ app.get("/scrape", (req, res)=> {
             });
         });
     });
-    res.json("Scrape Finished");
 });
 
 
@@ -86,6 +85,16 @@ app.get("/notes/:id", (req,res) => {
         res.json(result);
     })
 });
+
+app.get("/drop", (req, res) => {
+    db.Article.remove({})
+    .then(result => {
+        res.json("You've deleted the articles")
+    })
+    .catch(err =>
+        res.json(err)
+        );
+})
 
 app.put("/save/:id", (req, res) => {
     console.log("REQBODY SAVE ARTICLE", req.body)

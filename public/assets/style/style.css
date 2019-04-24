@@ -1,0 +1,13 @@
+#edit-note, #delete-note {
+    position: relative;
+    float: right;
+}
+.brand-logo {
+    margin-left: 30px;
+}
+.nav-wrapper {
+    background-color:  #263238  ;
+}
+body {
+    background-image: url(../images/jeremy-bishop-335002-unsplash.jpg)
+}

@@ -4,7 +4,7 @@ $(document).ready(function(){
   });
         
 // open modal and get notes
-$(document).on('click', '#open-notes', function(e){
+$(document).on('click', '.open-notes', function(e){
     e.preventDefault();
     $("#note-title").val("");
     $("#note-body").val(""); 
@@ -33,7 +33,7 @@ $(document).on('click', '#open-notes', function(e){
         // $(".modal").modal();
     });
 });
-$(document).on('click', '#save-article', function(e){
+$(document).on('click', '.save-article', function(e){
     e.preventDefault();
     console.log('IVE BEEN CLICKED');
     const articleId =$(this).attr('data-id');
@@ -41,8 +41,8 @@ $(document).on('click', '#save-article', function(e){
         url: '/save/' + articleId,
         method: 'PUT',
         data: {isSaved: "true", sentFrom: "index"}
-    }).then(result => {
-        console.log(result);
+    }).done(() => {
+       window.location.href = window.location.origin + "/";
     });
 });
 
@@ -90,7 +90,7 @@ const addNotes = (notes) => {
         // const editIcon = $("<i>").addClass("material-icons").text("edit");
         // editButton.html(`<i class="material-icons left">`)
         // editButton.text("Edit");
-        childDiv.append(newSpan, editButton, deleteButton);
+        childDiv.append(newSpan, deleteButton, editButton);
         newLine.append(newDiv, childDiv);
         $("#note-area").append(newLine);
     });
@@ -126,14 +126,14 @@ $(document).on("click", "#update-note", function(e) {
     });
 });
 
-$(document).on("click", "#remove-saved", function(e) {
+$(document).on("click", ".remove-saved", function(e) {
     const articleId = $(this).attr("data-id");
     $.ajax({
         url: '/save/' + articleId,
         method: "PUT",
         data: {isSaved: "false", sentFrom: "saved"}
-    }).then(result => {
-        console.log(result);
+    }).done(() => {
+        window.location.href = window.location.origin + "/saved";
     });
 });
 
